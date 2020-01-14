@@ -65,6 +65,7 @@ public class Frequencer implements FrequencerInterface {
             if(4 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
         }
         catch(Exception e) {
+            e.printStackTrace();
             System.out.println("Exception occurred: STOP");
         }
     }

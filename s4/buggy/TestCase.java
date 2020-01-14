@@ -43,6 +43,7 @@ public class TestCase {
             if(4 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
         }
         catch(Exception e) {
+            e.printStackTrace();
             System.out.println("Exception occurred: STOP");
         }
 
@@ -66,6 +67,7 @@ public class TestCase {
             System.out.println(">00 "+value);
         }
         catch(Exception e) {
+            e.printStackTrace();
             System.out.println("Exception occurred: STOP");
         }
 
