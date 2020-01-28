@@ -18,7 +18,7 @@ public class TestCase {
             System.out.println("Failed: " + message);
         }
         else {
-            System.out.println("Passed");
+            System.out.println("Passed: " + message);
         }
     }
 
@@ -41,6 +41,8 @@ public class TestCase {
             assertTrue(count == -1, "Should returns -1 when Target is not set");
         }
     }
+    private static void testFrequencer_subByteFrequency() {
+    }
 
     /** Test for InformationEstimator.estimation()
      *
@@ -48,7 +50,7 @@ public class TestCase {
     private static void testInformationEstimator_estimation() {
         // Use block{} to define scope for each test
         {
-            InformationEstimatorInterface estimator = InformationEstimator();
+            InformationEstimatorInterface estimator = new InformationEstimator();
             estimator.setSpace("3210321001230123".getBytes());
 
             estimator.setTarget("0".getBytes());
@@ -100,7 +102,7 @@ public class TestCase {
         try {
             // Call test methods
             testFrequencer_frequency();
-            testInformationEstimator_estimation();
+            //testInformationEstimator_estimation();
         }
         catch(Exception e) {
             e.printStackTrace();

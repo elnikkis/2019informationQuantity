@@ -25,7 +25,7 @@ Frequencer: Frequencer.class
 InformationEstimator: InformationEstimator.class
 	java $(JFLAGS) s4.T000003/InformationEstimator
 
-TestCase: TestCase.class
+TestCase: TestCase.class InformationEstimator.class Frequencer.class
 	java $(JFLAGS) s4.T000003/TestCase
 
 
