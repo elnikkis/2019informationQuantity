@@ -62,16 +62,16 @@ public class TestCase {
         {
             // overlap
             FrequencerInterface frequencer = new Frequencer();
-            frequencer.setTarget("aaaaaa".getBytes());
-            frequencer.setSpace("aaa".getBytes());
+            frequencer.setSpace("aaaaaa".getBytes());
+            frequencer.setTarget("aaa".getBytes());
             int count = frequencer.frequency();
             assertTrue(count == 4, "overlap frequency == 4, got " + count);
         }
         {
             // same
             FrequencerInterface frequencer = new Frequencer();
-            frequencer.setTarget("abcde".getBytes());
             frequencer.setSpace("abcde".getBytes());
+            frequencer.setTarget("abcde".getBytes());
             int count = frequencer.frequency();
             assertTrue(count == 1, "same frequency == 1, got " + count);
         }
@@ -79,14 +79,14 @@ public class TestCase {
     private static void testFrequencer_subByteFrequency() {
         {
             FrequencerInterface frequencer = new Frequencer();
-            frequencer.setTarget("abcabcabca".getBytes());
-            frequencer.setSpace("abc".getBytes());
+            frequencer.setSpace("abcabcabca".getBytes());
+            frequencer.setTarget("abc".getBytes());
             int count = frequencer.subByteFrequency(0, 3);
-            assertTrue(count == 3, "subbyte all");
+            assertTrue(count == 3, "subbyte all, got " + count);
             count = frequencer.subByteFrequency(0, 2);
-            assertTrue(count == 3, "subbyte 2");
+            assertTrue(count == 3, "subbyte 2, got " + count);
             count = frequencer.subByteFrequency(0, 1);
-            assertTrue(count == 4, "subbyte 1");
+            assertTrue(count == 4, "subbyte 1, got " + count);
         }
     }
 
