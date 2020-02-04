@@ -75,6 +75,22 @@ public class TestCase {
             int count = frequencer.frequency();
             assertTrue(count == 1, "same frequency == 1, got " + count);
         }
+        {
+            // not exists
+            FrequencerInterface frequencer = new Frequencer();
+            frequencer.setSpace("abcee".getBytes());
+            frequencer.setTarget("h".getBytes());
+            int count = frequencer.frequency();
+            assertTrue(count == 0, "not exists frequency == 0, got " + count);
+        }
+        {
+            // not exists
+            FrequencerInterface frequencer = new Frequencer();
+            frequencer.setSpace("abcee".getBytes());
+            frequencer.setTarget("abd".getBytes());
+            int count = frequencer.frequency();
+            assertTrue(count == 0, "not exists frequency == 0, got " + count);
+        }
     }
     private static void testFrequencer_subByteFrequency() {
         {
