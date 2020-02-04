@@ -26,22 +26,68 @@ public class TestCase {
      *
      * */
     private static void testFrequencer_frequency() {
-        // Use block{} to define scope for each test
         {
+            // basic test
             FrequencerInterface frequencer = new Frequencer();
             frequencer.setSpace("Hi Ho Hi Ho".getBytes());
             frequencer.setTarget("H".getBytes());
             int count = frequencer.frequency();
             assertTrue(count == 4, "H appears 4 times");
         }
-        // Use another block to test using new object
+        // Specification test
         {
             FrequencerInterface frequencer = new Frequencer();
             int count = frequencer.frequency();
             assertTrue(count == -1, "Should returns -1 when Target is not set");
         }
+        {
+            FrequencerInterface frequencer = new Frequencer();
+            frequencer.setTarget("".getBytes());
+            int count = frequencer.frequency();
+            assertTrue(count == -1, "Should returns -1 when Target length is zero");
+        }
+        {
+            FrequencerInterface frequencer = new Frequencer();
+            frequencer.setTarget("hello".getBytes());
+            int count = frequencer.frequency();
+            assertTrue(count == 0, "Should returns 0 when Space is not set");
+        }
+        {
+            FrequencerInterface frequencer = new Frequencer();
+            frequencer.setTarget("hello".getBytes());
+            frequencer.setSpace("".getBytes());
+            int count = frequencer.frequency();
+            assertTrue(count == 0, "Should returns 0 when Space length is zero");
+        }
+        {
+            // overlap
+            FrequencerInterface frequencer = new Frequencer();
+            frequencer.setTarget("aaaaaa".getBytes());
+            frequencer.setSpace("aaa".getBytes());
+            int count = frequencer.frequency();
+            assertTrue(count == 4, "overlap frequency == 4, got " + count);
+        }
+        {
+            // same
+            FrequencerInterface frequencer = new Frequencer();
+            frequencer.setTarget("abcde".getBytes());
+            frequencer.setSpace("abcde".getBytes());
+            int count = frequencer.frequency();
+            assertTrue(count == 1, "same frequency == 1, got " + count);
+        }
     }
     private static void testFrequencer_subByteFrequency() {
+        {
+            FrequencerInterface frequencer = new Frequencer();
+            frequencer.setTarget("abcabcabca".getBytes());
+            frequencer.setSpace("abc".getBytes());
+            int count = frequencer.subByteFrequency(0, 3);
+            assertTrue(count == 3, "subbyte all");
+            count = frequencer.subByteFrequency(0, 2);
+            assertTrue(count == 3, "subbyte 2");
+            count = frequencer.subByteFrequency(0, 1);
+            assertTrue(count == 4, "subbyte 1");
+        }
     }
 
     /** Test for InformationEstimator.estimation()
@@ -102,6 +148,7 @@ public class TestCase {
         try {
             // Call test methods
             testFrequencer_frequency();
+            testFrequencer_subByteFrequency();
             //testInformationEstimator_estimation();
         }
         catch(Exception e) {
