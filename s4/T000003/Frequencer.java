@@ -155,7 +155,7 @@ public class Frequencer implements FrequencerInterface {
         }
         //System.out.printf("start find at %d (%d)\n", startIdx, compareSuffixAndTarget(startIdx, start, end));
         // 0の始まりをみつける
-        while (compareSuffixAndTarget(startIdx, start, end) == 0) {
+        while (startIdx >= 0 && compareSuffixAndTarget(startIdx, start, end) == 0) {
             startIdx--;
         }
         return startIdx + 1; // 0が起きる場所を示すので+1が必要
@@ -168,25 +168,28 @@ public class Frequencer implements FrequencerInterface {
         if (endIdx == suffixArray.length) {
             return endIdx;
         }
-        //System.out.printf("end find at %d (%d)\n", endIdx, compareSuffixAndTarget(endIdx, start, end));
+        //System.out.printf("end: found at %d (%d)\n", endIdx, compareSuffixAndTarget(endIdx, start, end));
         // 0の終わりをみつける
-        while (compareSuffixAndTarget(endIdx, start, end) == 0) {
+        while (endIdx < suffixArray.length && compareSuffixAndTarget(endIdx, start, end) == 0) {
             endIdx++;
         }
         return endIdx;
     }
 
     int binarySearch(int left, int right, int start, int end) {
-        if (right - left <= 0) {
+        if (right - left < 0) {
             return suffixArray.length;
         }
         int mid = left + (right - left) / 2;
         int ret = compareSuffixAndTarget(mid, start, end);
-        //System.out.printf("[%d] = %d\n", mid, ret);
+        //System.out.printf("left=%d, right=%d, [%d] = %d\n", left, right, mid, ret);
         if (ret == 0) {
             return mid;
         }
-        else if (ret > 0) {
+        else if (ret != 0 && left == right) {
+            return suffixArray.length;
+        }
+        else if (ret < 0) {
             // midより右側
             return binarySearch(mid+1, right, start, end);
         }
@@ -238,17 +241,19 @@ public class Frequencer implements FrequencerInterface {
         try {
             System.out.println("Checking my Frequencer");
             var frequencer = new Frequencer();
-            frequencer.setSpace("Hi Ho Hi Ho".getBytes());
-            frequencer.setTarget("H".getBytes());
+            //frequencer.setSpace("Hi Ho Hi Ho".getBytes());
+            frequencer.setSpace("abcabcabc".getBytes());
+            frequencer.setTarget("abc".getBytes());
             frequencer.printSuffixArray();
-            int freq = frequencer.frequency();
-            System.out.print("\"H\" in \"Hi Ho Hi Ho\" appears "+freq+" times. ");
-            if(4 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
 
             for (int i=0; i<frequencer.mySpace.length; i++) {
-                System.out.println("idx=" + i + " res=" + frequencer.compareSuffixAndTarget(i, 0, 1));
+                System.out.println("idx=" + i + " res=" + frequencer.compareSuffixAndTarget(i, 0, frequencer.myTarget.length));
             }
-            System.out.println(frequencer.binarySearch(0, 10, 0, 1));
+            //System.out.println(frequencer.binarySearch(0, 10, 0, 1));
+
+            int freq = frequencer.subByteFrequency(0, 3);
+            System.out.print("appears "+freq+" times. ");
+            if(4 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
         }
         catch(Exception e) {
             e.printStackTrace();
