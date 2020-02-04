@@ -110,14 +110,51 @@ public class TestCase {
      *
      * */
     private static void testInformationEstimator_estimation() {
-        // Use block{} to define scope for each test
+        // Spec test
+        {
+            InformationEstimatorInterface estimator = new InformationEstimator();
+            double value = estimator.estimation();
+            assertTrue(value == 0, "When target is not set, returns zero");
+        }
+        {
+            InformationEstimatorInterface estimator = new InformationEstimator();
+            estimator.setTarget("".getBytes());
+            double value = estimator.estimation();
+            assertTrue(value == 0, "When target is empty, returns zero");
+        }
+        {
+            InformationEstimatorInterface estimator = new InformationEstimator();
+            estimator.setTarget("aa".getBytes());
+            double value = estimator.estimation();
+            assertTrue(value == Double.MAX_VALUE, "When space is not set, returns Double.MAX_VALUE");
+        }
+        // basic test
         {
             InformationEstimatorInterface estimator = new InformationEstimator();
             estimator.setSpace("3210321001230123".getBytes());
 
             estimator.setTarget("0".getBytes());
             double value = estimator.estimation();
-            System.out.println(">0 "+value);
+            assertTrue(value == 2.0, ">0 = 2.0, got " + value);
+
+            estimator.setTarget("01".getBytes());
+            value = estimator.estimation();
+            assertTrue(value == 3.0, ">01 = 3.0, got " + value);
+
+            estimator.setTarget("0123".getBytes());
+            value = estimator.estimation();
+            assertTrue(value == 3.0, ">0123 = 3.0, got " + value);
+
+            estimator.setTarget("00".getBytes());
+            value = estimator.estimation();
+            assertTrue(value == 4.0, ">0 = 4.0, got " + value);
+        }
+        {
+            InformationEstimatorInterface estimator = new InformationEstimator();
+            estimator.setSpace("1234567812345678123456781234567812345678123456781234567812345678".getBytes());
+            estimator.setTarget("1234567812345678".getBytes());
+            double value = estimator.estimation();
+            assertTrue(value == 2.0, "longer, got " + value);
         }
     }
 
@@ -163,9 +200,12 @@ public class TestCase {
 
         try {
             // Call test methods
+            System.out.println("==== Frequencer.frequency() test ====");
             testFrequencer_frequency();
+            System.out.println("==== subByteFrequency() test ====");
             testFrequencer_subByteFrequency();
-            //testInformationEstimator_estimation();
+            System.out.println("==== InformationEstimator.estimation() test ====");
+            testInformationEstimator_estimation();
         }
         catch(Exception e) {
             e.printStackTrace();
