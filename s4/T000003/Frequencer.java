@@ -176,18 +176,17 @@ public class Frequencer implements FrequencerInterface {
         return endIdx;
     }
 
+    /*
     int binarySearch(int left, int right, int start, int end) {
-        if (right - left < 0) {
+        if (left > right || left >= suffixArray.length) {
+            // failed to search
             return suffixArray.length;
         }
-        int mid = left + (right - left) / 2;
+        int mid = (left + right) / 2;
         int ret = compareSuffixAndTarget(mid, start, end);
         //System.out.printf("left=%d, right=%d, [%d] = %d\n", left, right, mid, ret);
         if (ret == 0) {
             return mid;
-        }
-        else if (ret != 0 && left == right) {
-            return suffixArray.length;
         }
         else if (ret < 0) {
             // midより右側
@@ -195,8 +194,29 @@ public class Frequencer implements FrequencerInterface {
         }
         else {
             // midより左側
-            return binarySearch(left, mid, start, end);
+            return binarySearch(left, mid-1, start, end);
         }
+    }
+    */
+
+    int binarySearch(int left, int right, final int start, final int end) {
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            if (mid < 0 || mid >= suffixArray.length) {
+                break;
+            }
+            int ret = compareSuffixAndTarget(mid, start, end);
+            if (ret < 0) {
+                left = mid + 1;
+            }
+            else if (ret > 0) {
+                right = mid - 1;
+            }
+            else {
+                return mid;
+            }
+        }
+        return suffixArray.length;
     }
 
     /** 文字列suffix: mySpace[suffix_i:]と 文字列subTarget: myTarget[start:end]とを比較して、
