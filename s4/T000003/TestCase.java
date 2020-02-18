@@ -154,11 +154,25 @@ public class TestCase {
             estimator.setSpace("1234567812345678123456781234567812345678123456781234567812345678".getBytes());
             estimator.setTarget("1234567812345678".getBytes());
             double value = estimator.estimation();
-            assertTrue(value == 2.0, "longer, got " + value);
+            assertTrue(value == 3.192645077942396, "longer, got " + value);
+        }
+        {
+            InformationEstimatorInterface gt = new NaiveInformationEstimator();
+            InformationEstimatorInterface estimator = new InformationEstimator();
+            byte[] space = "010100011101010100010101".getBytes();
+            byte[] target = "0101".getBytes();
+            gt.setSpace(space);
+            estimator.setSpace(space);
+            gt.setTarget(target);
+            estimator.setTarget(target);
+            double v1 = gt.estimation();
+            double v2 = estimator.estimation();
+            assertTrue(v1 == v2, "random, true value = " + v1 + ", got " + v2);
         }
     }
 
     public static void main(String[] args) {
+        /*
         try {
             FrequencerInterface  myObject;
             System.out.println("checking s4.T000003.Frequencer");
@@ -172,8 +186,9 @@ public class TestCase {
         catch(Exception e) {
             e.printStackTrace();
             System.out.println("Exception occurred: STOP");
-        }
+        }*/
 
+        /*
         try {
             InformationEstimatorInterface myObject;
             double value;
@@ -196,7 +211,7 @@ public class TestCase {
         catch(Exception e) {
             e.printStackTrace();
             System.out.println("Exception occurred: STOP");
-        }
+        }*/
 
         try {
             // Call test methods
