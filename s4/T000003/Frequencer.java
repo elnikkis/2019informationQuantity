@@ -135,6 +135,7 @@ public class Frequencer implements FrequencerInterface {
             suffixArray[i] = i;
         }
         // Sort suffixArray
+        /*
         for (int i=0; i<suffixArray.length; i++) {
             for (int j=i+1; j<suffixArray.length; j++) {
                 if (compareSuffix(i, j) > 0) {
@@ -143,6 +144,45 @@ public class Frequencer implements FrequencerInterface {
                     suffixArray[j] = tmp;
                 }
             }
+        }
+        */
+        // merge sort
+        var tmp = new int[mySpace.length];
+        merge_sort(suffixArray, tmp, 0, suffixArray.length);
+    }
+    void merge_sort(int[] A, int[] B, int left, int right) {
+        if (left == right || left == right - 1) {
+            return;
+        }
+        int mid = (left + right) / 2;
+        merge_sort(A, B, left, mid);
+        merge_sort(A, B, mid, right);
+        merge(A, B, left, mid, right);
+    }
+    void merge(int[] A, int[] B, int left, int mid, int right) {
+        int i = left;
+        int j = mid;
+        int k = 0;
+        while(i < mid && j < right) {
+            if (compareSuffix(i, j) < 0) {
+                B[k++] = A[i++];
+            }
+            else {
+                B[k++] = A[j++];
+            }
+        }
+        if(i == mid) {
+            while(j < right) {
+                B[k++] = A[j++];
+            }
+        }
+        else {
+            while(i < mid) {
+                B[k++] = A[i++];
+            }
+        }
+        for(int l=0; l<k; l++) {
+            A[left + l] = B[l];
         }
     }
 
